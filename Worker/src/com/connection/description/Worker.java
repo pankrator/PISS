@@ -13,7 +13,7 @@ public abstract class Worker {
 	protected Connection connection;
 	protected Descriptor descriptor;
 	
-	public Worker(int retryConnectionNumber, int port) throws ConnectException {
+	public Worker(int port, int retryConnectionNumber) throws ConnectException {
 		int count = 0;
 		if (port <= 0) {
 			port = SCHEDULER_PORT;

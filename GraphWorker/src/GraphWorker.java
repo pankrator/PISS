@@ -7,7 +7,7 @@ import com.connection.description.Worker;
 public class GraphWorker extends Worker {
 
 	public GraphWorker() throws ConnectException {
-		super(3, 5000);
+		super(5000, 3);
 		descriptor = new GraphDescriptor();
 		descriptor.addTask("Iterate over graph");
 	}

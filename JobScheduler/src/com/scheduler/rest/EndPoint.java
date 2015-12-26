@@ -1,3 +1,4 @@
+package com.scheduler.rest;
 import fi.iki.elonen.NanoHTTPD.IHTTPSession;
 import fi.iki.elonen.NanoHTTPD.Method;
 import fi.iki.elonen.NanoHTTPD.Response.IStatus;

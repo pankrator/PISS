@@ -1,5 +1,9 @@
+package com.scheduler.main;
 import java.io.IOException;
 
+import com.scheduler.rest.ReceiveNeighbours;
+import com.scheduler.rest.RestServer;
+import com.scheduler.rest.SimpleRestHandler;
 import com.scheduler.server.SchedulerServer;
 
 import fi.iki.elonen.util.ServerRunner;

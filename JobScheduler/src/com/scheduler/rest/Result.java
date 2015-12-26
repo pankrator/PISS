@@ -1,3 +1,4 @@
+package com.scheduler.rest;
 
 public class Result {
 	
