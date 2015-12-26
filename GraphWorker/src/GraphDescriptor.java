@@ -1,5 +1,3 @@
-package com.workers.graph;
-
 import java.util.LinkedList;
 import java.util.List;
 

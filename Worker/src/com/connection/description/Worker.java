@@ -13,10 +13,12 @@ public abstract class Worker {
 	protected Connection connection;
 	protected Descriptor descriptor;
 	
-	public Worker(int retryConnectionNumber) throws ConnectException {
+	public Worker(int retryConnectionNumber, int port) throws ConnectException {
 		int count = 0;
-		
-		connection = new Connection("localhost", SCHEDULER_PORT);
+		if (port <= 0) {
+			port = SCHEDULER_PORT;
+		}
+		connection = new Connection("localhost", port);
 		try {
 			while (count < retryConnectionNumber && connection.initializeConnection() != true) {
 				count++;
@@ -54,7 +56,25 @@ public abstract class Worker {
 		sendResponse(connection.getOutputStream());
 	}
 	
+	/**
+	 * This method will be invoked when a new Task is received and needs to be done.
+	 * 
+	 * @param index is the identifier of the task
+	 * @param input is the data that is needed for the task to be done. You can think of it as arguments to a function
+	 */
 	protected abstract void onTaskReceived(int index, String input);
+	
+	/**
+	 * This method is called on every new message that is received by the worker
+	 * @param message the received information
+	 */
 	protected abstract void onMessageReceived(String message);
+	
+	/**
+	 * This method must send a response with either a result from a task or some kind of information
+	 * It is called on every message that the worker receives.
+	 * @see Worker#update()
+	 * @param oStream
+	 */
 	protected abstract void sendResponse(DataOutputStream oStream);
 }
