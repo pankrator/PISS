@@ -48,6 +48,7 @@ public abstract class Worker {
 		String receivedMessage = iStream.readUTF();
 		onMessageReceived(receivedMessage);
 		if (receivedMessage.startsWith("TASK")) {
+			// TODO parse resultKey and better parsing of taskNumber
 			int taskNumber = Integer.parseInt(receivedMessage.substring(4, 5));
 			String taskInput = receivedMessage.substring(6);
 			onTaskReceived(taskNumber, taskInput);

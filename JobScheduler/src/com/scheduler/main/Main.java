@@ -10,6 +10,8 @@ import fi.iki.elonen.util.ServerRunner;
 
 
 public class Main {
+	
+	public static SchedulerServer scheduler;
 
 	public static void main(String[] args) {
 		int port = 5000;
@@ -17,7 +19,7 @@ public class Main {
 			port = Integer.parseInt(args[1]);
 		}
 		
-		SchedulerServer scheduler = new SchedulerServer(port);
+		scheduler = new SchedulerServer(port);
 		try {
 			scheduler.start();
 		} catch (IOException e) {

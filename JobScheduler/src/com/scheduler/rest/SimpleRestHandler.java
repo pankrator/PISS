@@ -1,4 +1,8 @@
 package com.scheduler.rest;
+import java.util.Map;
+
+import com.scheduler.main.Main;
+
 import fi.iki.elonen.NanoHTTPD.IHTTPSession;
 import fi.iki.elonen.NanoHTTPD.Method;
 import fi.iki.elonen.NanoHTTPD.Response.IStatus;
@@ -8,7 +12,9 @@ public class SimpleRestHandler implements EndPoint {
 
 	@Override
 	public Object call(IHTTPSession session) {
-		return new Result();
+		Map<String, String> params = session.getParms();
+		int index = Integer.parseInt(params.get("index"));
+		return Main.scheduler.doSyncTask(index, "test");
 	}
 
 	@Override

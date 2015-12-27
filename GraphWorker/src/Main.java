@@ -9,6 +9,9 @@ public class Main {
 		try {
 			worker = new GraphWorker();
 			worker.start();
+			while (true) {
+				worker.update();
+			}
 		} catch (ConnectException e) {
 			
 		} catch (IOException e) {
