@@ -46,12 +46,16 @@ public abstract class Worker {
 	public void update() throws IOException {
 		DataInputStream iStream = connection.getInputStream();
 		String receivedMessage = iStream.readUTF();
+		System.out.println("received message: " + receivedMessage);
 		onMessageReceived(receivedMessage);
 		if (receivedMessage.startsWith("TASK")) {
 			// TODO parse resultKey and better parsing of taskNumber
-			int taskNumber = Integer.parseInt(receivedMessage.substring(4, 5));
-			String taskInput = receivedMessage.substring(6);
+			String resultKey = receivedMessage.substring(4, 8); // Result key will be with fixed length
+			System.out.println("Doing task with key " + resultKey);
+			int taskNumber = Integer.parseInt(receivedMessage.substring(9, 10));
+			String taskInput = receivedMessage.substring(11);
 			onTaskReceived(taskNumber, taskInput);
+			connection.getOutputStream().writeUTF("RESULT" + resultKey);
 		}
 		
 		sendResponse(connection.getOutputStream());

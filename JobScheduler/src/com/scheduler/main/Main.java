@@ -3,6 +3,7 @@ import java.io.IOException;
 
 import com.scheduler.rest.ReceiveNeighbours;
 import com.scheduler.rest.RestServer;
+import com.scheduler.rest.ResultRestHandler;
 import com.scheduler.rest.SimpleRestHandler;
 import com.scheduler.server.SchedulerServer;
 
@@ -27,8 +28,9 @@ public class Main {
 		}
 		
 		RestServer rest = new RestServer();
-		rest.registerEndpointClass("/asd", new SimpleRestHandler());
-		rest.registerEndpointClass("/asd", new ReceiveNeighbours());
+		rest.registerEndpointClass("/sum", new SimpleRestHandler());
+		rest.registerEndpointClass("/receive", new ResultRestHandler());
+//		rest.registerEndpointClass("/asd", new ReceiveNeighbours());
 		
 		
 		ServerRunner.executeInstance(rest);

@@ -1,13 +1,8 @@
 package com.scheduler.rest;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import fi.iki.elonen.NanoHTTPD.IHTTPSession;
 import fi.iki.elonen.NanoHTTPD.Method;
 import fi.iki.elonen.NanoHTTPD.Response.IStatus;
 import fi.iki.elonen.NanoHTTPD.Response.Status;
-import fi.iki.elonen.NanoHTTPD.ResponseException;
 
 
 public class ReceiveNeighbours implements EndPoint {

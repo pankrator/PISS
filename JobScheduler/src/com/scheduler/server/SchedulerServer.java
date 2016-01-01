@@ -3,10 +3,8 @@ package com.scheduler.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 
 public class SchedulerServer {
@@ -28,12 +26,15 @@ public class SchedulerServer {
 	}
 	
 	public String getResult(String key) {
+		System.out.println("Trying to receive result with key: " + key);
 		int dotIndex = key.indexOf(".");
-		int workerIndex = Integer.parseInt(key.substring(0, dotIndex));
-		return workers.get(workerIndex).getResult(key.substring(dotIndex));
+//		int workerIndex = Integer.parseInt(key.substring(0, dotIndex));
+		// TODO: Include in result key the workerIndex!
+		return workers.get(0).getResult(key);
 	}
 
 	public String doTask(int index, String input) {
+		System.out.println("Scheduler received task with index " + index);
 		// TODO: Choose which worker to take the next task
 		if (workers.size() < 1) {
 			throw new IllegalStateException("There are no running workers now!");

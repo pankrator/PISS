@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Random;
 
 public class WorkerThread extends Thread {
 	
@@ -46,7 +47,7 @@ public class WorkerThread extends Thread {
 		try {
 			outputStream.writeUTF(output.toString());
 			String response = inputStream.readUTF();
-			
+			// TODO: Complete the logic for sync tasks
 			return response;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -71,19 +72,36 @@ public class WorkerThread extends Thread {
 					output.append(nextTask.resultKey + ":");
 					output.append(nextTask.index + ":");
 					output.append(nextTask.input);
+					System.out.println("Sendin task with index " + nextTask.index);
 					outputStream.writeUTF(output.toString());
 					
 					String response = inputStream.readUTF();
-					System.out.println(response);
+					if (response.startsWith("RESULT")) {
+						String resultKey = response.substring(6);
+						String actualResult = inputStream.readUTF();
+						System.out.println("result " + actualResult);
+						results.put(resultKey, actualResult);
+					}
 				}
+				Thread.sleep(10);
 			}
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	private String generateKey() {
 		// TODO: Generate a more appropriate key
-		return "key";
+		Random rand = new Random();
+		StringBuilder result = new StringBuilder();
+		result.append(rand.nextInt(10));
+		result.append(rand.nextInt(10));
+		result.append(rand.nextInt(10));
+		result.append(rand.nextInt(10));
+		
+		return result.toString();
 	}
 }
