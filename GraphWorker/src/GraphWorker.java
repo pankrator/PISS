@@ -32,14 +32,21 @@ public class GraphWorker extends Worker {
 		// Then in sendResponse method send a result
 		System.out.println(index);
 
-		if (index == 1) {
-			Gson gson = new Gson();
+		Gson gson = new Gson();
+		
+		switch (index) {
+		case 1:
 			Numbers numbers = gson.fromJson(input, Numbers.class);
 			System.out.println("Summing two numbers:" + numbers.a + " and " + numbers.b);	
 			int c = numbers.a + numbers.b;
 			System.out.println(c);
 			result = String.valueOf(c);
 			isResultReady = true;
+			break;
+			
+		case 2:
+//			gson.fromJson(json, classOfT)
+			break;
 		}
 	}
 
