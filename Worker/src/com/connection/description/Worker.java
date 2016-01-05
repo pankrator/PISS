@@ -50,10 +50,10 @@ public abstract class Worker {
 		onMessageReceived(receivedMessage);
 		if (receivedMessage.startsWith("TASK")) {
 			// TODO parse resultKey and better parsing of taskNumber
-			String resultKey = receivedMessage.substring(4, 8); // Result key will be with fixed length
+			String resultKey = receivedMessage.substring(4, 9); // Result key will be with fixed length
 			System.out.println("Doing task with key " + resultKey);
-			int taskNumber = Integer.parseInt(receivedMessage.substring(9, 10));
-			String taskInput = receivedMessage.substring(11);
+			int taskNumber = Integer.parseInt(receivedMessage.substring(10, 11));
+			String taskInput = receivedMessage.substring(12);
 			onTaskReceived(taskNumber, taskInput);
 			connection.getOutputStream().writeUTF("RESULT" + resultKey);
 		}

@@ -16,20 +16,26 @@ public class WorkerThread extends Thread {
 	private Map<String, String> results;
 	private DataOutputStream outputStream;
 	private DataInputStream inputStream;
+	private int workerIndex;
 	
 	private Queue<Task> tasks;
 	
-	public WorkerThread(Socket socket) throws IOException {
+	public WorkerThread(Socket socket, int workerIndex) throws IOException {
 		super();
 		tasks = new LinkedList<>();
 		results = new HashMap<>();
 		this.socket = socket;
 		this.outputStream = new DataOutputStream(socket.getOutputStream());
 		this.inputStream = new DataInputStream(socket.getInputStream());
+		this.workerIndex = workerIndex;
 	}
 	
 	public String getResult(String key) {
 		return this.results.get(key);
+	}
+	
+	public int getNumberOfTasks() {
+		return this.tasks.size();
 	}
 	
 	public String registerTask(Task task) {
@@ -72,6 +78,7 @@ public class WorkerThread extends Thread {
 					output.append(nextTask.resultKey + ":");
 					output.append(nextTask.index + ":");
 					output.append(nextTask.input);
+					System.out.println("Task input " + nextTask.input);
 					System.out.println("Sendin task with index " + nextTask.index);
 					outputStream.writeUTF(output.toString());
 					
@@ -97,6 +104,7 @@ public class WorkerThread extends Thread {
 		// TODO: Generate a more appropriate key
 		Random rand = new Random();
 		StringBuilder result = new StringBuilder();
+		result.append(workerIndex);
 		result.append(rand.nextInt(10));
 		result.append(rand.nextInt(10));
 		result.append(rand.nextInt(10));

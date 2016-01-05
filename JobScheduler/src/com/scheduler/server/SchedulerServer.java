@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Queue;
 
 public class SchedulerServer {
@@ -27,31 +28,31 @@ public class SchedulerServer {
 	
 	public String getResult(String key) {
 		System.out.println("Trying to receive result with key: " + key);
-		int dotIndex = key.indexOf(".");
-//		int workerIndex = Integer.parseInt(key.substring(0, dotIndex));
+		int workerIndex = Integer.parseInt(key.substring(0, 1));
 		// TODO: Include in result key the workerIndex!
-		return workers.get(0).getResult(key);
+		return workers.get(workerIndex).getResult(key);
 	}
 
 	public String doTask(int index, String input) {
 		System.out.println("Scheduler received task with index " + index);
-		// TODO: Choose which worker to take the next task
-		if (workers.size() < 1) {
-			throw new IllegalStateException("There are no running workers now!");
-		} else {
-			WorkerThread worker = workers.get(0);
-			return worker.registerTask(new Task(index, input));
-		}
+		WorkerThread worker = getWorker();
+		return worker.registerTask(new Task(index, input));
 	}
 
 	public String doSyncTask(int index, String input) {
-		// TODO: Choose which worker to take the next task
-		if (workers.size() < 1) {
+		System.out.println("Scheduler received task with index " + index);
+		WorkerThread worker = getWorker();
+		return worker.completeTaskSync(new Task(index, input));
+	}
+	
+	private WorkerThread getWorker() {
+		if (workers.size() > 1) {
 			throw new IllegalStateException("There are no running workers now!");
-		} else {
-			WorkerThread worker = workers.get(0);
-			return worker.completeTaskSync(new Task(index, input));
 		}
+		
+		return workers.stream().min((WorkerThread a, WorkerThread b) -> {
+			return a.getNumberOfTasks() - b.getNumberOfTasks();
+		}).get();
 	}
 
 	private class SchedulerThread implements Runnable {
@@ -62,7 +63,7 @@ public class SchedulerServer {
 				while (true) {
 					Socket workerSocket = server.accept();
 					System.out.println("New worker connected!");
-					WorkerThread thread = new WorkerThread(workerSocket);
+					WorkerThread thread = new WorkerThread(workerSocket, workers.size());
 					thread.start();
 					workers.add(thread);
 					if (pendingTasks.size() > 0) {

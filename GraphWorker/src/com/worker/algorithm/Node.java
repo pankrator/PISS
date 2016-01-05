@@ -2,14 +2,14 @@ package com.worker.algorithm;
 
 public class Node implements Comparable<Node> {
 	
-	public int key;
-	public int parent;
+	public String key;
+	public String parent;
 	public double distance;
 	
 	public Node() {
 	}
 	
-	public Node(int key, int parent, int distance) {
+	public Node(String key, String parent, int distance) {
 		this.key = key;
 		this.parent = parent;
 		this.distance = distance;

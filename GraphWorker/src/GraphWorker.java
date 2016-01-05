@@ -1,10 +1,15 @@
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ConnectException;
+import java.util.Arrays;
 
 import com.connection.description.Descriptor;
 import com.connection.description.Worker;
 import com.google.gson.Gson;
+import com.worker.algorithm.DijkstraAlgorithm;
+import com.worker.formater.GraphDataConvertor;
+import com.worker.model.Edge;
+import com.worker.model.GraphModel;
 import com.worker.model.Numbers;
 
 
@@ -17,7 +22,7 @@ public class GraphWorker extends Worker {
 		super(5000, 3);
 		isResultReady = false;
 		descriptor = new GraphDescriptor();
-		descriptor.addTask("Iterate over graph");
+		descriptor.addTask("Dijkstra over a graph");
 		descriptor.addTask("Sum two numbers");
 	}
 	
@@ -44,8 +49,13 @@ public class GraphWorker extends Worker {
 			isResultReady = true;
 			break;
 			
-		case 2:
-//			gson.fromJson(json, classOfT)
+		case 0:
+			GraphModel model = gson.fromJson(input, GraphModel.class);
+			DijkstraAlgorithm dijkstra = new DijkstraAlgorithm();
+			dijkstra.initialize(GraphDataConvertor.fromModelToVertexList(model));
+			dijkstra.findShortestPath(model.start);
+			result = dijkstra.getPathTo(model.start, model.target).toString();
+			isResultReady = true;
 			break;
 		}
 	}
