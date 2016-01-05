@@ -59,10 +59,13 @@ public class DijkstraAlgorithm {
 		String currentKey = toKey;
 		Stack<String> result = new Stack<>();
 		while(parents.get(currentKey) != fromKey) {
-			System.out.println(currentKey);
 			result.push(currentKey);
 			currentKey = parents.get(currentKey);
+			if (parents.get(currentKey) == null) {
+				return new Stack<>();
+			}
 		}
+		result.push(currentKey);
 		result.push(fromKey);
 		
 		return result;

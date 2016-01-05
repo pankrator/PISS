@@ -17,18 +17,13 @@ public class GraphWorker extends Worker {
 	
 	private String result;
 	private boolean isResultReady;
-
-	public GraphWorker() throws ConnectException {
-		super(5000, 3);
+	
+	public GraphWorker(String host) throws ConnectException {
+		super(5000, host, 3);
 		isResultReady = false;
 		descriptor = new GraphDescriptor();
 		descriptor.addTask("Dijkstra over a graph");
 		descriptor.addTask("Sum two numbers");
-	}
-	
-	public GraphWorker(Descriptor descriptor) throws ConnectException {
-		super(5000, 3);
-		this.descriptor = descriptor;
 	}
 	
 	@Override
@@ -54,7 +49,8 @@ public class GraphWorker extends Worker {
 			DijkstraAlgorithm dijkstra = new DijkstraAlgorithm();
 			dijkstra.initialize(GraphDataConvertor.fromModelToVertexList(model));
 			dijkstra.findShortestPath(model.start);
-			result = dijkstra.getPathTo(model.start, model.target).toString();
+			Object[] path = dijkstra.getPathTo(model.start, model.target).toArray();
+			result = gson.toJson(path);
 			isResultReady = true;
 			break;
 		}

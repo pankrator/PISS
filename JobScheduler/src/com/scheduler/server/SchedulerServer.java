@@ -46,7 +46,7 @@ public class SchedulerServer {
 	}
 	
 	private WorkerThread getWorker() {
-		if (workers.size() > 1) {
+		if (workers.size() < 1) {
 			throw new IllegalStateException("There are no running workers now!");
 		}
 		

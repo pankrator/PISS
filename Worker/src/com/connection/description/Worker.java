@@ -13,12 +13,12 @@ public abstract class Worker {
 	protected Connection connection;
 	protected Descriptor descriptor;
 	
-	public Worker(int port, int retryConnectionNumber) throws ConnectException {
+	public Worker(int port, String host, int retryConnectionNumber) throws ConnectException {
 		int count = 0;
 		if (port <= 0) {
 			port = SCHEDULER_PORT;
 		}
-		connection = new Connection("localhost", port);
+		connection = new Connection(host, port);
 		try {
 			while (count < retryConnectionNumber && connection.initializeConnection() != true) {
 				count++;
@@ -26,6 +26,9 @@ public abstract class Worker {
 			if (count > retryConnectionNumber) {
 				throw new ConnectException("No connection could be established in reasonable time!");
 			}
+			
+			System.out.println("Successfully connected to Scheduler server");
+			
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -39,6 +42,7 @@ public abstract class Worker {
 		for (int i = 0; i < descriptor.getNumberOfTasks(); i++) {
 			tasksResponse.append(i + ":");
 			tasksResponse.append(descriptor.getDescription(i));
+			tasksResponse.append("\n");
 		}
 		oStream.writeUTF(tasksResponse.toString());
 	}
