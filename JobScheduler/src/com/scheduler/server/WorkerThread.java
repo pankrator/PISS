@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
 
+import com.scheduler.main.Main;
+
 public class WorkerThread extends Thread {
 	
 	private Socket socket;
@@ -65,6 +67,7 @@ public class WorkerThread extends Thread {
 	
 	@Override
 	public void run() {
+		Task nextTask = null;
 		try {
 			System.out.println();
 			outputStream.writeUTF("CONNECTED");
@@ -72,13 +75,14 @@ public class WorkerThread extends Thread {
 			System.out.println(tasksDescription);
 			
 			while (true) {
-				Task nextTask = tasks.poll();
+				nextTask = tasks.poll();
 				if (nextTask != null) {
 					StringBuilder output = new StringBuilder("TASK");
 					output.append(nextTask.resultKey + ":");
 					output.append(nextTask.index + ":");
 					output.append(nextTask.input);
-					System.out.println("Task input " + nextTask.input);
+//					System.out.println("Task input " + nextTask.input);
+					System.out.println(nextTask.input);
 					System.out.println("Sendin task with index " + nextTask.index);
 					outputStream.writeUTF(output.toString());
 					
@@ -93,7 +97,14 @@ public class WorkerThread extends Thread {
 				Thread.sleep(10);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Connection to worker is lost");
+			System.out.println("Deleting worker from Scheduler...");
+			Main.scheduler.removeWorker(this.workerIndex);
+			System.out.println("Return task to Scheduler...");
+			if (nextTask != null) {
+				Main.scheduler.doTask(nextTask.index, nextTask.input);				
+			}
+//			e.printStackTrace();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -30,7 +30,7 @@ public class GraphWorker extends Worker {
 	protected void onTaskReceived(int index, String input) {
 		// TODO: From index you can determine which is the incoming task and do it.
 		// Then in sendResponse method send a result
-		System.out.println(index);
+		System.out.println(input);
 
 		Gson gson = new Gson();
 		

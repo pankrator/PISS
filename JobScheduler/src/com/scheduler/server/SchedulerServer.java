@@ -35,7 +35,12 @@ public class SchedulerServer {
 
 	public String doTask(int index, String input) {
 		System.out.println("Scheduler received task with index " + index);
-		WorkerThread worker = getWorker();
+		WorkerThread worker = null;
+		try {
+			worker = getWorker();
+		} catch (IllegalStateException e) {
+			return "No workers found!";
+		}
 		return worker.registerTask(new Task(index, input));
 	}
 
@@ -74,5 +79,9 @@ public class SchedulerServer {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void removeWorker(int workerIndex) {
+		this.workers.remove(workerIndex);
 	}
 }
