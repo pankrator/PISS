@@ -28,6 +28,9 @@ public class SchedulerServer {
 	
 	public String getResult(String key) {
 		System.out.println("Trying to receive result with key: " + key);
+		if (workers.size() == 0) {
+			return null;
+		}
 		int workerIndex = Integer.parseInt(key.substring(0, 1));
 		// TODO: Include in result key the workerIndex!
 		return workers.get(workerIndex).getResult(key);
