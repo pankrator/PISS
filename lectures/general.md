@@ -1,3 +1,5 @@
+# 1-4 презентация събрани дефиниции и прочие
+
 ###Failure handling techniques
 
 * Detecting failures
