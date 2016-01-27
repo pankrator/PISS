@@ -149,3 +149,55 @@ remains consistent.
 ###Communication omission failures
 
 
+###Synchronous and asynchronous communication
+	Synchronous
+		sending and receiving processes synchronize at every message
+		both send and receive are blocking operations
+	
+###Message destinations
+	(Internet address, local port)
+	Client programs refer to services by name and use a name server or binder
+	to translate their names into server locations at runtime.
+	
+###Reliability
+	Validity - point-to-point message service can be described as reliable if
+	messages are guaranteed to be delivered despite a ‘reasonable’ number
+	of packets being dropped or lost
+	Integrity – messages must arrive uncorrupted and without duplication
+
+###CORBA’s common data representation,
+	external representation for the structured and primitive types that can
+	be passed as the arguments and results of remote method invocations
+	in CORBA. It can be used by a variety of programming languages.
+
+###Java’s object serialization,
+	the flattening and external data representation of any single object or
+	tree of objects that may need to be transmitted in a message or stored
+	on a disk. It is for use only by Java.
+	
+###XML (Extensible Markup Language),
+	defines a textual format for representing structured data. It was
+	originally intended for documents containing textual self-describing
+	structured data – for example documents accessible on the Web – but
+	it is now also used to represent the data sent in messages exchanged
+	by clients and servers in web services.
+	
+###remote object reference 
+	is an identifier for a remote object
+	that is valid throughout a distributed system
+
+###Multicast communication
+	Multicast operation sends a single message from one process
+	to each of the members of a group of processes, usually in
+	such a way that the membership of the group is transparent
+	to the sender
+	
+###Network virtualization
+	Network virtualization is concerned with the construction of
+	many different virtual networks over an existing network such
+	as the Internet. Each virtual network can be designed to
+	support a particular distributed application.
+	
+	Each virtual network has its own particular addressing
+	scheme, protocols and routing algorithms, but redefined to
+	meet the needs of particular application classes.
